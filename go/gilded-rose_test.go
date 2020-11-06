@@ -35,7 +35,15 @@ func TestAgedBrie(t *testing.T) {
 		&Item{"Aged Brie", 2, 0},
 	}
 
-	days := 3
+	days := 2
+
+	LoopDays(items, days)
+
+	if items[0].quality != 2 {
+		t.Errorf("Quality: Expected less than 2, but got %d ", items[0].quality)
+	}
+
+	days = 1
 
 	LoopDays(items, days)
 
