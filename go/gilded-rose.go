@@ -1,5 +1,9 @@
 package main
 
+import (
+	"strings"
+)
+
 type Item struct {
 	name            string
 	sellIn, quality int
@@ -27,6 +31,10 @@ func UpdateQuality(items []*Item) {
 				items[i].quality = 0
 			}
 
+		} else if strings.Contains(items[i].name, "Conjured") {
+			if items[i].quality > 0 {
+				items[i].quality = items[i].quality - 2
+			}
 		} else if items[i].name != "Sulfuras, Hand of Ragnaros" {
 			if items[i].sellIn > 0 {
 				items[i].quality = items[i].quality - 1
