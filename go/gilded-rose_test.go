@@ -14,6 +14,11 @@ func Test_UpdateQuality(t *testing.T) {
 			Result: &Item{"apple", 0, 0},
 		},
 		{
+			Input:  &Item{"apple", 5, 40},
+			Days:   10,
+			Result: &Item{"apple", -5, 25},
+		},
+		{
 			Input:  &Item{"Conjured apple", 50, 40},
 			Days:   5,
 			Result: &Item{"Conjured apple", 45, 30},
@@ -52,6 +57,16 @@ func Test_UpdateQuality(t *testing.T) {
 			Input:  &Item{"Backstage passes apple", 2, 10},
 			Days:   3,
 			Result: &Item{"Backstage passes apple", -1, 0},
+		},
+		{
+			Input:  &Item{"Backstage passes apple", 2, 10},
+			Days:   5,
+			Result: &Item{"Backstage passes apple", -3, 0},
+		},
+		{
+			Input:  &Item{"Backstage passes apple", -1, 0},
+			Days:   3,
+			Result: &Item{"Backstage passes apple", -4, 0},
 		},
 	}
 
