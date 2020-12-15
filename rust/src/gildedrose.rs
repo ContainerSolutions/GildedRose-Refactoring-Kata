@@ -99,41 +99,69 @@ mod tests {
 
    #[test]
    pub fn default_item() {
-               
-        let input = vec![
-            Item::new("+5 Dexterity Vest", 10, 20),
-            Item::new("Aged Brie", 2, 0),
-            Item::new("Elixir of the Mongoose", 5, 7),
-            Item::new("Sulfuras, Hand of Ragnaros", 0, 80),
-            Item::new("Sulfuras, Hand of Ragnaros", -1, 80),
-            Item::new("Backstage passes to a TAFKAL80ETC concert", 15, 20),
-            Item::new("Backstage passes to a TAFKAL80ETC concert", 10, 49),
-            Item::new("Backstage passes to a TAFKAL80ETC concert", 5, 49),
-            Item::new("Conjured Mana Cake", 3, 6),
+        pub struct Test {
+            pub days: i32,
+            pub output: Vec<Item>,
+        }           
+
+        let tests = vec![
+            Test {days: 3, output: vec![
+                Item::new("+5 Dexterity Vest", 7, 17),
+                Item::new("Aged Brie", -1, 4),
+                Item::new("Elixir of the Mongoose", 2, 4),
+                Item::new("Sulfuras, Hand of Ragnaros", 0, 80),
+                Item::new("Sulfuras, Hand of Ragnaros", -1, 80),
+                Item::new("Backstage passes to a TAFKAL80ETC concert", 12, 23),
+                Item::new("Backstage passes to a TAFKAL80ETC concert", 7, 50),
+                Item::new("Backstage passes to a TAFKAL80ETC concert", 2, 50),
+                Item::new("Conjured Mana Cake", 0, 3),
+            ]},
+            Test {days: 10, output: vec![
+                Item::new("+5 Dexterity Vest", 0, 10),
+                Item::new("Aged Brie", -8, 18),
+                Item::new("Elixir of the Mongoose", -5, 0),
+                Item::new("Sulfuras, Hand of Ragnaros", 0, 80),
+                Item::new("Sulfuras, Hand of Ragnaros", -1, 80),
+                Item::new("Backstage passes to a TAFKAL80ETC concert", 5, 35),
+                Item::new("Backstage passes to a TAFKAL80ETC concert", 0, 50),
+                Item::new("Backstage passes to a TAFKAL80ETC concert", -5, 0),
+                Item::new("Conjured Mana Cake", -7, 0),
+            ]},
+            Test {days: 29, output: vec![
+                Item::new("+5 Dexterity Vest", -19, 0),
+                Item::new("Aged Brie", -27, 50),
+                Item::new("Elixir of the Mongoose", -24, 0),
+                Item::new("Sulfuras, Hand of Ragnaros", 0, 80),
+                Item::new("Sulfuras, Hand of Ragnaros", -1, 80),
+                Item::new("Backstage passes to a TAFKAL80ETC concert", -14, 0),
+                Item::new("Backstage passes to a TAFKAL80ETC concert", -19, 0),
+                Item::new("Backstage passes to a TAFKAL80ETC concert", -24, 0),
+                Item::new("Conjured Mana Cake", -26, 0),
+            ]},
         ];
 
-        let output = vec![
-            Item::new("+5 Dexterity Vest", -19, 0),
-            Item::new("Aged Brie", -27, 50),
-            Item::new("Elixir of the Mongoose", -24, 0),
-            Item::new("Sulfuras, Hand of Ragnaros", -0, 80),
-            Item::new("Sulfuras, Hand of Ragnaros", -1, 80),
-            Item::new("Backstage passes to a TAFKAL80ETC concert", -14, 0),
-            Item::new("Backstage passes to a TAFKAL80ETC concert", -19, 0),
-            Item::new("Backstage passes to a TAFKAL80ETC concert", -24, 0),
-            Item::new("Conjured Mana Cake", -26, 0),
-        ];
+        for test in tests{
 
-        let mut rose = GildedRose::new(input);
-        let days:i32 = 29;
+            let input = vec![
+                Item::new("+5 Dexterity Vest", 10, 20),
+                Item::new("Aged Brie", 2, 0),
+                Item::new("Elixir of the Mongoose", 5, 7),
+                Item::new("Sulfuras, Hand of Ragnaros", 0, 80),
+                Item::new("Sulfuras, Hand of Ragnaros", -1, 80),
+                Item::new("Backstage passes to a TAFKAL80ETC concert", 15, 20),
+                Item::new("Backstage passes to a TAFKAL80ETC concert", 10, 49),
+                Item::new("Backstage passes to a TAFKAL80ETC concert", 5, 49),
+                Item::new("Conjured Mana Cake", 3, 6),
+            ];
 
-        days_loop(&mut rose,days);
-        
-        for i in 0..output.len(){
-         assert_eq!(
-            (output[i].sell_in,output[i].quality),
-            (rose.items[i].sell_in,rose.items[i].quality)
-         );
+            let mut rose = GildedRose::new(input);
+            days_loop(&mut rose,test.days);
+            for i in 0..test.output.len(){
+                assert_eq!(
+                    (test.output[i].sell_in,test.output[i].quality),
+                    (rose.items[i].sell_in,rose.items[i].quality)
+                );
+            }
         }
    }
 
