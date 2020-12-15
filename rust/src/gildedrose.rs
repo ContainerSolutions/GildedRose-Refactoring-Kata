@@ -38,51 +38,46 @@ impl GildedRose {
 
     pub fn update_quality(&mut self) {
         for item in &mut self.items {
-            
             match item.name.as_str() {
-               "Sulfuras, Hand of Ragnaros" => 
-                (),
-               "Aged Brie" =>
-                {
+                "Sulfuras, Hand of Ragnaros" => (),
+                "Aged Brie" => {
                     GildedRose::increase_by_one(item);
                     if item.sell_in <= 0 {
-                       GildedRose::increase_by_one(item);
+                        GildedRose::increase_by_one(item);
                     }
-                },
-               "Backstage passes to a TAFKAL80ETC concert" =>
-               {
+                }
+                "Backstage passes to a TAFKAL80ETC concert" => {
                     if item.sell_in > 0 {
-                       GildedRose::increase_by_one(item);
+                        GildedRose::increase_by_one(item);
                         if item.sell_in < 6 {
-                           GildedRose::increase_by_one(item);
+                            GildedRose::increase_by_one(item);
                         }
                         if item.sell_in < 11 {
-                           GildedRose::increase_by_one(item);
+                            GildedRose::increase_by_one(item);
                         }
                     } else {
                         item.quality = 0
                     }
-               },  
-               "Conjured Mana Cake" => {
-                if item.sell_in > 0 {
-                    item.quality = item.quality - 2
-                } else {
-                    item.quality = 0
                 }
-           }                                
-               _ => {
+                "Conjured Mana Cake" => {
+                    if item.sell_in > 0 {
+                        item.quality = item.quality - 2
+                    } else {
+                        item.quality = 0
+                    }
+                }
+                _ => {
                     if item.sell_in > 0 {
                         item.quality = item.quality - 1
                     } else {
                         item.quality = 0
                     }
-               }
+                }
             }
 
             if item.name != "Sulfuras, Hand of Ragnaros" {
                 item.sell_in = item.sell_in - 1;
             }
-
         }
     }
 }
@@ -90,61 +85,67 @@ impl GildedRose {
 #[cfg(test)]
 mod tests {
     use super::{GildedRose, Item};
-    
-    pub fn days_loop(rose:&mut GildedRose,mut days:i32) {
-                      
+
+    pub fn days_loop(rose: &mut GildedRose, mut days: i32) {
         while days > 0 {
             rose.update_quality();
             days -= 1;
         }
-
     }
 
-   #[test]
-   pub fn default_item() {
+    #[test]
+    pub fn default_item() {
         pub struct Test {
             pub days: i32,
             pub output: Vec<Item>,
-        }           
+        }
 
         let tests = vec![
-            Test {days: 3, output: vec![
-                Item::new("+5 Dexterity Vest", 7, 17),
-                Item::new("Aged Brie", -1, 4),
-                Item::new("Elixir of the Mongoose", 2, 4),
-                Item::new("Sulfuras, Hand of Ragnaros", 0, 80),
-                Item::new("Sulfuras, Hand of Ragnaros", -1, 80),
-                Item::new("Backstage passes to a TAFKAL80ETC concert", 12, 23),
-                Item::new("Backstage passes to a TAFKAL80ETC concert", 7, 50),
-                Item::new("Backstage passes to a TAFKAL80ETC concert", 2, 50),
-                Item::new("Conjured Mana Cake", 0, 0),
-            ]},
-            Test {days: 10, output: vec![
-                Item::new("+5 Dexterity Vest", 0, 10),
-                Item::new("Aged Brie", -8, 18),
-                Item::new("Elixir of the Mongoose", -5, 0),
-                Item::new("Sulfuras, Hand of Ragnaros", 0, 80),
-                Item::new("Sulfuras, Hand of Ragnaros", -1, 80),
-                Item::new("Backstage passes to a TAFKAL80ETC concert", 5, 35),
-                Item::new("Backstage passes to a TAFKAL80ETC concert", 0, 50),
-                Item::new("Backstage passes to a TAFKAL80ETC concert", -5, 0),
-                Item::new("Conjured Mana Cake", -7, 0),
-            ]},
-            Test {days: 29, output: vec![
-                Item::new("+5 Dexterity Vest", -19, 0),
-                Item::new("Aged Brie", -27, 50),
-                Item::new("Elixir of the Mongoose", -24, 0),
-                Item::new("Sulfuras, Hand of Ragnaros", 0, 80),
-                Item::new("Sulfuras, Hand of Ragnaros", -1, 80),
-                Item::new("Backstage passes to a TAFKAL80ETC concert", -14, 0),
-                Item::new("Backstage passes to a TAFKAL80ETC concert", -19, 0),
-                Item::new("Backstage passes to a TAFKAL80ETC concert", -24, 0),
-                Item::new("Conjured Mana Cake", -26, 0),
-            ]},
+            Test {
+                days: 3,
+                output: vec![
+                    Item::new("+5 Dexterity Vest", 7, 17),
+                    Item::new("Aged Brie", -1, 4),
+                    Item::new("Elixir of the Mongoose", 2, 4),
+                    Item::new("Sulfuras, Hand of Ragnaros", 0, 80),
+                    Item::new("Sulfuras, Hand of Ragnaros", -1, 80),
+                    Item::new("Backstage passes to a TAFKAL80ETC concert", 12, 23),
+                    Item::new("Backstage passes to a TAFKAL80ETC concert", 7, 50),
+                    Item::new("Backstage passes to a TAFKAL80ETC concert", 2, 50),
+                    Item::new("Conjured Mana Cake", 0, 0),
+                ],
+            },
+            Test {
+                days: 10,
+                output: vec![
+                    Item::new("+5 Dexterity Vest", 0, 10),
+                    Item::new("Aged Brie", -8, 18),
+                    Item::new("Elixir of the Mongoose", -5, 0),
+                    Item::new("Sulfuras, Hand of Ragnaros", 0, 80),
+                    Item::new("Sulfuras, Hand of Ragnaros", -1, 80),
+                    Item::new("Backstage passes to a TAFKAL80ETC concert", 5, 35),
+                    Item::new("Backstage passes to a TAFKAL80ETC concert", 0, 50),
+                    Item::new("Backstage passes to a TAFKAL80ETC concert", -5, 0),
+                    Item::new("Conjured Mana Cake", -7, 0),
+                ],
+            },
+            Test {
+                days: 29,
+                output: vec![
+                    Item::new("+5 Dexterity Vest", -19, 0),
+                    Item::new("Aged Brie", -27, 50),
+                    Item::new("Elixir of the Mongoose", -24, 0),
+                    Item::new("Sulfuras, Hand of Ragnaros", 0, 80),
+                    Item::new("Sulfuras, Hand of Ragnaros", -1, 80),
+                    Item::new("Backstage passes to a TAFKAL80ETC concert", -14, 0),
+                    Item::new("Backstage passes to a TAFKAL80ETC concert", -19, 0),
+                    Item::new("Backstage passes to a TAFKAL80ETC concert", -24, 0),
+                    Item::new("Conjured Mana Cake", -26, 0),
+                ],
+            },
         ];
 
-        for test in tests{
-
+        for test in tests {
             let input = vec![
                 Item::new("+5 Dexterity Vest", 10, 20),
                 Item::new("Aged Brie", 2, 0),
@@ -158,14 +159,13 @@ mod tests {
             ];
 
             let mut rose = GildedRose::new(input);
-            days_loop(&mut rose,test.days);
-            for i in 0..test.output.len(){
+            days_loop(&mut rose, test.days);
+            for i in 0..test.output.len() {
                 assert_eq!(
-                    (test.output[i].sell_in,test.output[i].quality),
-                    (rose.items[i].sell_in,rose.items[i].quality)
+                    (test.output[i].sell_in, test.output[i].quality),
+                    (rose.items[i].sell_in, rose.items[i].quality)
                 );
             }
         }
-   }
-
+    }
 }
