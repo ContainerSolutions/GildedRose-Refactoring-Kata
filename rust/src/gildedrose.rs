@@ -62,7 +62,14 @@ impl GildedRose {
                     } else {
                         item.quality = 0
                     }
-               },                                  
+               },  
+               "Conjured Mana Cake" => {
+                if item.sell_in > 0 {
+                    item.quality = item.quality - 2
+                } else {
+                    item.quality = 0
+                }
+           }                                
                _ => {
                     if item.sell_in > 0 {
                         item.quality = item.quality - 1
@@ -110,7 +117,7 @@ mod tests {
                 Item::new("Backstage passes to a TAFKAL80ETC concert", 12, 23),
                 Item::new("Backstage passes to a TAFKAL80ETC concert", 7, 50),
                 Item::new("Backstage passes to a TAFKAL80ETC concert", 2, 50),
-                Item::new("Conjured Mana Cake", 0, 3),
+                Item::new("Conjured Mana Cake", 0, 0),
             ]},
             Test {days: 10, output: vec![
                 Item::new("+5 Dexterity Vest", 0, 10),
